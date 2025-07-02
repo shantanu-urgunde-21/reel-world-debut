@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 interface Movie {
-  id: number;
+  id: number | string;
   title: string;
   poster: string;
   genre: string[];
@@ -18,9 +19,18 @@ interface MovieCardProps {
 }
 
 const MovieCard = ({ movie, featured = false }: MovieCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/movie/${movie.id}`);
+  };
+
   if (featured) {
     return (
-      <div className="relative h-96 md:h-[500px] rounded-xl overflow-hidden group cursor-pointer">
+      <div 
+        className="relative h-96 md:h-[500px] rounded-xl overflow-hidden group cursor-pointer"
+        onClick={handleClick}
+      >
         <img
           src={`https://images.unsplash.com/${movie.poster}?auto=format&fit=crop&w=800&q=80`}
           alt={movie.title}
@@ -49,7 +59,7 @@ const MovieCard = ({ movie, featured = false }: MovieCardProps) => {
   }
 
   return (
-    <div className="group cursor-pointer">
+    <div className="group cursor-pointer" onClick={handleClick}>
       <div className="relative rounded-lg overflow-hidden mb-3 aspect-[3/4]">
         <img
           src={`https://images.unsplash.com/${movie.poster}?auto=format&fit=crop&w=400&q=80`}
